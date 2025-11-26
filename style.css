@@ -1,3 +1,22 @@
-h1 {
-    color: white;
+.Main {
+    width: 90vw;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+}
+
+.Menu {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}
+
+.Money {
+    display: flex;
+    justify-content: center;
+}
+
+.MainButtons {
+    display: flex;
+    justify-content: center;
 }
