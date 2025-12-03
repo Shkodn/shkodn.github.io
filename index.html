@@ -118,7 +118,7 @@ $('.Minus').click(function() {
                     id: Date.now(),
                     type: type,
                     amount: amount,
-                    comment: Telegram.WebApp.initDataUnsafe.user,
+                    comment: Telegram.WebApp.initDataUnsafe.user.username,
                     date: date.toLocaleString('ru-RU')
                 };
 
@@ -175,4 +175,5 @@ $('.Minus').click(function() {
 </body>
 
 </html>
+
 
