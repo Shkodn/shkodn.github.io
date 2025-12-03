@@ -9,12 +9,12 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="style.css">
-    <script src="../static/javascript/java.js"></script>
+    <script src="java.js"></script>
     <title>Финансовый трекер</title>
 
 </head>
 <body>
-    <div class="Menu">
+     <div class="Menu">
         <button class="UpButton">📁 Группы</button>
         <div id="currentGroup" style="color: #888; font-size: 14px;">Основная</div>
     </div>
@@ -26,13 +26,13 @@
         <div class="group-list" id="groupList"></div>
     </div>
 
-    <!-- Основная информация -->
+    <!-- Баланс текущей группы -->
     <div class="Money">
-        <h3 class="Info">Общий баланс:</h3>
+        <h3 class="Info">Баланс группы:</h3>
         <div id="totalAmount">0 ₽</div>
     </div>
 
-    <!-- Логи -->
+    <!-- Логи текущей группы -->
     <div class="logs-container">
         <div class="section-title">История операций</div>
         <div id="logsList"></div>
@@ -44,11 +44,12 @@
         <button class="Minus">➖ Расход</button>
     </div>
 
-    <!-- Модальное окно для ввода суммы -->
+    <!-- Модальное окно для ввода -->
     <div class="amount-modal" id="amountModal">
         <div class="amount-content">
             <h3 style="margin-bottom: 20px; color: #ddd;" id="modalTitle">Введите сумму</h3>
             <input type="number" class="amount-input" id="amountInput" placeholder="0" min="0" step="0.01">
+            <textarea class="comment-input" id="commentInput" placeholder="Комментарий (куда потратили/откуда получили)..."></textarea>
             <div class="amount-actions">
                 <button class="amount-btn cancel" id="cancelBtn">Отмена</button>
                 <button class="amount-btn confirm" id="confirmBtn">Подтвердить</button>

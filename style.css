@@ -1,4 +1,4 @@
-* {
+{
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -47,10 +47,6 @@
         .UpButton:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .UpButton:active {
-            transform: translateY(0);
         }
 
         /* Окно групп */
@@ -155,6 +151,11 @@
             font-weight: 500;
         }
 
+        .group-balance {
+            font-size: 14px;
+            color: #888;
+        }
+
         .group-delete {
             background: #ff4757;
             color: white;
@@ -198,7 +199,7 @@
             text-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
         }
 
-        /* Логи */
+        /* Логи для текущей группы */
         .logs-container {
             background: #1e1e1e;
             padding: 25px;
@@ -230,7 +231,7 @@
             margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             border-left: 5px solid #667eea;
             transition: all 0.3s ease;
         }
@@ -248,10 +249,17 @@
             flex-grow: 1;
         }
 
+        .log-comment {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #ddd;
+        }
+
         .log-amount {
             font-size: 20px;
             font-weight: 700;
             margin-left: 15px;
+            white-space: nowrap;
         }
 
         .log-amount.plus {
@@ -260,12 +268,6 @@
 
         .log-amount.minus {
             color: #ff4757;
-        }
-
-        .log-group {
-            color: #888;
-            font-size: 14px;
-            margin-top: 5px;
         }
 
         .log-date {
@@ -318,7 +320,7 @@
             box-shadow: 0 8px 25px rgba(255, 71, 87, 0.3);
         }
 
-        /* Модальное окно для суммы */
+        /* Модальное окно для ввода */
         .amount-modal {
             position: fixed;
             top: 0;
@@ -354,11 +356,30 @@
             background: #2d2d2d;
             color: white;
             font-size: 18px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             transition: border-color 0.3s ease;
         }
 
         .amount-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 18px;
+            border-radius: 15px;
+            border: 2px solid #444;
+            background: #2d2d2d;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .comment-input:focus {
             outline: none;
             border-color: #667eea;
         }
@@ -411,6 +432,13 @@
             height: 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 2px;
+        }
+
+        .empty-logs {
+            text-align: center;
+            color: #666;
+            padding: 40px;
+            font-size: 16px;
         }
 
         /* Адаптивность */
