@@ -9,7 +9,6 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="style.css">
-    <script src="java.js"></script>
     <title>Финансовый трекер</title>
 
 </head>
@@ -19,32 +18,27 @@
         <div id="currentGroup" style="color: #888; font-size: 14px;">Основная</div>
     </div>
 
-    <!-- Модальное окно групп -->
     <div class="groups-modal">
         <button class="create-group-btn" id="createGroupBtn">➕ Создать новую группу</button>
         <input type="text" class="group-input" id="groupInput" placeholder="Введите название группы...">
         <div class="group-list" id="groupList"></div>
     </div>
 
-    <!-- Баланс текущей группы -->
     <div class="Money">
         <h3 class="Info">Баланс группы:</h3>
         <div id="totalAmount">0 ₽</div>
     </div>
 
-    <!-- Логи текущей группы -->
     <div class="logs-container">
         <div class="section-title">История операций</div>
         <div id="logsList"></div>
     </div>
 
-    <!-- Кнопки действий -->
     <div class="MainButtons">
         <button class="Pribl">➕ Прибыль</button>
         <button class="Minus">➖ Расход</button>
     </div>
 
-    <!-- Модальное окно для ввода -->
     <div class="amount-modal" id="amountModal">
         <div class="amount-content">
             <h3 style="margin-bottom: 20px; color: #ddd;" id="modalTitle">Введите сумму</h3>
@@ -56,7 +50,124 @@
             </div>
         </div>
     </div>
+     <script>
 
+Telegram.WebApp.ready();
+Telegram.WebApp.expand();
+let currentOperation = null;
+let currentGroup = 'Основная';
+
+
+let groups =  {
+    'Основная': { balance: 0, logs: [] }
+};
+$('.Pribl').click(function() {
+        currentOperation = 'plus';
+        $('#modalTitle').text('Введите сумму прибыли');
+        $('#amountInput').val('');
+        $('#commentInput').val('');
+        $('#amountModal').addClass('active');
+        $('#amountInput').focus();
+    });
+
+$('.Minus').click(function() {
+    currentOperation = 'minus';
+    $('#modalTitle').text('Введите сумму расхода');
+    $('#amountInput').val('');
+    $('#commentInput').val('');
+    $('#amountModal').addClass('active');
+    $('#amountInput').focus();
+});
+
+    $('#cancelBtn').click(function() {
+         $('#amountModal').removeClass('active');
+        currentOperation = null;
+    });
+
+    $(document).click(function(e) {
+        if (!$(e.target).closest('.groups-modal, .UpButton').length) {
+            $('.groups-modal').removeClass('active');
+        }
+        if ($(e.target).hasClass('amount-modal')) {
+            $('#amountModal').removeClass('active');
+        }
+            });
+
+     $('#confirmBtn').click(function() {
+        const amount = parseFloat($('#amountInput').val());
+        const comment = $('#commentInput').val().trim();
+
+        if (amount && amount > 0 && currentOperation) {
+            addLog(currentOperation, amount, comment);
+            $('#amountModal').removeClass('active');
+            currentOperation = null;
+
+
+
+        } else if (!amount || amount <= 0) {
+            alert('Пожалуйста, введите корректную сумму');
+        }
+    });
+
+    function addLog(type, amount, comment) {
+                const date = new Date();
+                const log = {
+                    id: Date.now(),
+                    type: type,
+                    amount: amount,
+                    comment: comment || 'Без комментария',
+                    date: date.toLocaleString('ru-RU')
+                };
+
+                groups[currentGroup].logs.unshift(log);
+
+
+                if (type === 'plus') {
+                    groups[currentGroup].balance += amount;
+                } else {
+                    groups[currentGroup].balance -= amount;
+                }
+                updateGroupBalance();
+                renderLogs();
+            }
+
+    function renderLogs() {
+        $('#logsList').empty();
+        const currentLogs = groups[currentGroup].logs;
+
+        if (currentLogs.length === 0) {
+            $('#logsList').html('<div class="empty-logs">Нет операций в этой группе</div>');
+            return;
+        }
+
+        currentLogs.forEach(log => {
+            const isPlus = log.type === 'plus';
+            $('#logsList').append(`
+                <div class="log-item ${isPlus ? '' : 'minus'}">
+                    <div class="log-details">
+                        <div class="log-comment">${log.comment}</div>
+                        <div class="log-date">${log.date}</div>
+                    </div>
+                    <div class="log-amount ${isPlus ? 'plus' : 'minus'}">
+                        ${isPlus ? '+' : '-'}${log.amount} ₽
+                    </div>
+                </div>
+            `);
+        });
+    }
+    function updateGroupBalance() {
+        const balance = groups[currentGroup].balance;
+        $('#totalAmount').text(`${balance >= 0 ? '' : '-'}${Math.abs(balance).toFixed(2)} ₽`);
+
+                if (balance >= 0) {
+                    $('#totalAmount').css('background', 'linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%)');
+                } else {
+                    $('#totalAmount').css('background', 'linear-gradient(135deg, #ff4757 0%, #c44569 100%)');
+                }
+                $('#totalAmount').css('-webkit-background-clip', 'text');
+                $('#totalAmount').css('-webkit-text-fill-color', 'transparent');
+            }
+     </script>
 
 </body>
 </html>

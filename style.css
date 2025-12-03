@@ -349,7 +349,7 @@
         }
 
         .amount-input {
-            width: 100%;
+            width: 90%;
             padding: 18px;
             border-radius: 15px;
             border: 2px solid #444;
@@ -366,7 +366,7 @@
         }
 
         .comment-input {
-            width: 100%;
+            width: 90%;
             padding: 18px;
             border-radius: 15px;
             border: 2px solid #444;
